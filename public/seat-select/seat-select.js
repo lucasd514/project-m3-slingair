@@ -1,8 +1,21 @@
 const flightInput = document.getElementById("flight");
 const seatsDiv = document.getElementById("seats-section");
 const confirmButton = document.getElementById("confirm-button");
-const 
 let selection = "";
+
+function getFlightNumbers() {
+  fetch("/flights")
+    .then((resp) => resp.json())
+    .then((flights) => {
+      console.log("get flight numbers");
+      flights.forEach((id) => {
+        const option = document.createElement("option");
+        option.innerText = id;
+        option.value = id;
+        flightInput.appendChild(option);
+      });
+    });
+}
 
 const renderSeats = () => {
   document.querySelector(".form-container").style.display = "block";
@@ -72,5 +85,6 @@ const handleConfirmSeat = (event) => {
     },
   });
 };
-flightInput.addEventListener("blur", toggleFormContent);
-module.exports = { handleConfirmSeat };
+
+flightInput.addEventListener("change", toggleFormContent);
+getFlightNumbers();
