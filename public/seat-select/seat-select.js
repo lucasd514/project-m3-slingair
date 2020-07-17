@@ -17,8 +17,10 @@ function getFlightNumbers() {
     });
 }
 
-const renderSeats = () => {
+const renderSeats = (seatData) => {
   document.querySelector(".form-container").style.display = "block";
+  console.log(seatData);
+  seatsDiv.innerHTML = " ";
 
   const alpha = ["A", "B", "C", "D", "E", "F"];
   for (let r = 1; r < 11; r++) {
@@ -31,11 +33,22 @@ const renderSeats = () => {
       const seat = document.createElement("li");
 
       // Two types of seats to render
+
+      let checkSeat = seatData.find((seat) => {
+        return seat.id === seatNumber;
+      });
+      console.log(checkSeat);
       const seatOccupied = `<li><label class="seat"><span id="${seatNumber}" class="occupied">${seatNumber}</span></label></li>`;
       const seatAvailable = `<li><label class="seat"><input type="radio" name="seat" value="${seatNumber}" /><span id="${seatNumber}" class="avail">${seatNumber}</span></label></li>`;
 
+      if (checkSeat.isAvailable === true) {
+        seat.innerHTML = seatAvailable;
+      } else {
+        seat.innerHTML = seatOccupied;
+      }
+
       // TODO: render the seat availability based on the data...
-      seat.innerHTML = seatAvailable;
+
       row.appendChild(seat);
     }
   }
@@ -62,29 +75,37 @@ const toggleFormContent = (event) => {
   fetch(`/flights/${flightNumber}`)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      renderSeats(data);
     });
-  // TODO: contact the server to get the seating availability
-  //      - only contact the server if the flight number is this format 'SA###'.
-  //      - Do I need to create an error message if the number is not valid?
-
-  // TODO: Pass the response data to renderSeats to create the appropriate seat-type.
-  renderSeats();
 };
+
 const handleConfirmSeat = (event) => {
   event.preventDefault();
-  // TODO: everything in here!
+  console.log("clicked");
+  console.log(document.getElementById("seat-number").innerText);
   fetch("/users", {
     method: "POST",
-    body: JSON.stringify({
-      givenName: document.getElementById("givenName").value,
-    }),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-  });
+    body: JSON.stringify({
+      givenName: document.getElementById("givenName").value,
+      flight: flightInput.value,
+      seat: document.getElementById("seat-number").innerText,
+      surname: document.getElementById("surname").value,
+      email: document.getElementById("email").value,
+    }),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 };
 
 flightInput.addEventListener("change", toggleFormContent);
+confirmButton.addEventListener("onClick", handleConfirmSeat);
 getFlightNumbers();
