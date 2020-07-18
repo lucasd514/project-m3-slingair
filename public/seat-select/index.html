@@ -15,6 +15,15 @@
         <h1 class="header-logo">Air Slingshot</h1>
       </header>
       <div class="flight-select">
+        <label for="emailcheck">Already book? Enter your email here!</label>
+        <input type="text" id="emailcheck" name="username" />
+        <input
+          type="submit"
+          value="Submit"
+          onsubmit="handleCheckReservation(event)"
+        />
+      </div>
+      <div class="flight-select">
         <label for="flight">Flight Number :</label>
         <select name="flight" id="flight" class="flight" placeholder="flight #">
           <option>Choose a flight!</option>

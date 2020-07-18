@@ -9,7 +9,8 @@ const {
   fillFlightArray,
   handlePostReserve,
   handleGetReserve,
-wor  handleConfirmation,
+  handleConfirmation,
+  handleInfoPage,
 } = require("./handlers/handles");
 
 const PORT = process.env.PORT || 8000;
@@ -37,6 +38,7 @@ express()
   .post("/users", handlePostReserve)
   .get("/users", handleGetReserve)
   .get("/:id", handleConfirmation)
+  .get("/info/:id", handleInfoPage)
 
   .use((req, res) => res.send("Not Found"))
   .listen(PORT, () => console.log(`Listening on port 8000`));

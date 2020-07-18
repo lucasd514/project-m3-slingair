@@ -63,6 +63,20 @@ function handleConfirmation(req, res) {
     console.log("keep working");
   }
 }
+
+function handleInfoPage(req, res) {
+  const confirmID = req.params.id;
+  console.log(confirmID);
+  const bookedClient = findID(confirmID);
+  console.log(bookedClient);
+  if (bookedClient !== undefined) {
+    console.log("all good");
+    res.render("./pages/reserveinfo", { client: bookedClient });
+  } else {
+    console.log("keep working");
+    res.render("./pages/reserveQuattroZero");
+  }
+}
 module.exports = {
   flightData,
   handleSingleFlight,
@@ -70,4 +84,5 @@ module.exports = {
   handlePostReserve,
   handleGetReserve,
   handleConfirmation,
+  handleInfoPage,
 };
