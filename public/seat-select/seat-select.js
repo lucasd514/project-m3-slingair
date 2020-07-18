@@ -1,6 +1,8 @@
 const flightInput = document.getElementById("flight");
 const seatsDiv = document.getElementById("seats-section");
 const confirmButton = document.getElementById("confirm-button");
+const idButton = document.getElementById("bouton-verif");
+
 let selection = "";
 
 let randomNumber = Math.floor(Math.random() * 6000) + 1;
@@ -114,6 +116,15 @@ const handleConfirmSeat = (event) => {
     });
 };
 
+function handleCheckReservation(event) {
+  let resNumber = document.getElementById("idInput").value;
+  console.log(resNumber);
+  console.log("click");
+  location.replace(`/info/${resNumber}`);
+}
+
+idButton.addEventListener("click", handleCheckReservation);
 flightInput.addEventListener("change", toggleFormContent);
 confirmButton.addEventListener("onClick", handleConfirmSeat);
+
 getFlightNumbers();

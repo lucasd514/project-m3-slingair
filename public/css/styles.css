@@ -83,12 +83,10 @@ input {
 
 .flight-reserve {
   background: var(--cadmium-red);
-  height: 20px;
+  height: 80px;
   display: flex;
   align-items: center;
-  padding: var(--page-padding);
-  margin: 0px;
-  size: 18px;
+  padding: 0px;
 }
 .flight-reserve input {
   width: 200px;
