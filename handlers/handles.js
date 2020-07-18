@@ -5,6 +5,10 @@ function findClient(email) {
   return reservations.find((client) => client.email == email);
 }
 
+function findID(id) {
+  return reservations.find((client) => client.id === id);
+}
+
 function fillFlightArray() {
   let newArray = Object.keys(flights);
   console.log(newArray);
@@ -19,6 +23,7 @@ function flightData(req, res) {
 function handleSingleFlight(req, res) {
   const flightNo = req.params.flightID;
   const flightlookup = findFlight(flightNo);
+  console.log(flightNo);
   if (flightlookup === undefined) {
     res.status(404).send("no such flight exists");
   } else {
@@ -38,19 +43,31 @@ function handlePostReserve(req, res) {
   console.log(newclient);
   if (client) {
     console.log("we have an emaiil");
-    res.status(404).send("No good");
+    res.status(404).send("404");
   } else {
-    console.log("can be added");
+    console.log("200");
     reservations.push(newclient);
     console.log(reservations);
-    res.status(200).send("Email Good, added to list of reservations");
+    res.status(200).send("200");
   }
 }
 
+function handleConfirmation(req, res) {
+  const clientID = req.params.id;
+  console.log(clientID);
+  const bookedClient = findID(clientID);
+  console.log(bookedClient);
+  if (bookedClient !== undefined) {
+    res.render("./pages/confirm", { client: bookedClient });
+  } else {
+    console.log("keep working");
+  }
+}
 module.exports = {
   flightData,
   handleSingleFlight,
   fillFlightArray,
   handlePostReserve,
   handleGetReserve,
+  handleConfirmation,
 };

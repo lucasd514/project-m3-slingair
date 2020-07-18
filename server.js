@@ -9,6 +9,7 @@ const {
   fillFlightArray,
   handlePostReserve,
   handleGetReserve,
+wor  handleConfirmation,
 } = require("./handlers/handles");
 
 const PORT = process.env.PORT || 8000;
@@ -27,11 +28,15 @@ express()
   .use(bodyParser.json())
   .use(express.urlencoded({ extended: false }))
 
+  .set("view engine", "ejs")
   // endpoints
+
   .get("/flights", flightData)
   .get("/flights/:flightID", handleSingleFlight)
   .get("/test", fillFlightArray)
   .post("/users", handlePostReserve)
   .get("/users", handleGetReserve)
+  .get("/:id", handleConfirmation)
+
   .use((req, res) => res.send("Not Found"))
   .listen(PORT, () => console.log(`Listening on port 8000`));

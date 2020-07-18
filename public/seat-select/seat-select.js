@@ -3,11 +3,14 @@ const seatsDiv = document.getElementById("seats-section");
 const confirmButton = document.getElementById("confirm-button");
 let selection = "";
 
+let randomNumber = Math.floor(Math.random() * 6000) + 1;
+
+console.log(randomNumber);
+
 function getFlightNumbers() {
   fetch("/flights")
     .then((resp) => resp.json())
     .then((flights) => {
-      console.log("get flight numbers");
       flights.forEach((id) => {
         const option = document.createElement("option");
         option.innerText = id;
@@ -19,7 +22,6 @@ function getFlightNumbers() {
 
 const renderSeats = (seatData) => {
   document.querySelector(".form-container").style.display = "block";
-  console.log(seatData);
   seatsDiv.innerHTML = " ";
 
   const alpha = ["A", "B", "C", "D", "E", "F"];
@@ -90,6 +92,7 @@ const handleConfirmSeat = (event) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      id: randomNumber.toString(),
       givenName: document.getElementById("givenName").value,
       flight: flightInput.value,
       seat: document.getElementById("seat-number").innerText,
@@ -99,7 +102,12 @@ const handleConfirmSeat = (event) => {
   })
     .then((response) => response.text())
     .then((data) => {
-      console.log("Success:", data);
+      if (data === "200") {
+        return console.log("condition 1 good");
+        // return location.replace(`"/confirm/:id"`);
+      } else if (data === "404") {
+        return console.log("condition 2 failed");
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
