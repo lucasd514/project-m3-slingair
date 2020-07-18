@@ -6,7 +6,7 @@ const idButton = document.getElementById("bouton-verif");
 let selection = "";
 
 let randomNumber = Math.floor(Math.random() * 6000) + 1;
-
+let failnumber = randomNumber + 1;
 console.log(randomNumber);
 
 function getFlightNumbers() {
@@ -105,10 +105,9 @@ const handleConfirmSeat = (event) => {
     .then((response) => response.text())
     .then((data) => {
       if (data === "200") {
-        return console.log("condition 1 good");
-        // return location.replace(`"/confirm/:id"`);
+        location.replace(`/${randomNumber}`);
       } else if (data === "404") {
-        return console.log("condition 2 failed");
+        location.replace(`/${failnumber}`);
       }
     })
     .catch((error) => {

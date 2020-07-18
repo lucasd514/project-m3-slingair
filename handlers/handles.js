@@ -60,7 +60,7 @@ function handleConfirmation(req, res) {
   if (bookedClient !== undefined) {
     res.render("./pages/confirm", { client: bookedClient });
   } else {
-    console.log("keep working");
+    res.render("./pages/confirmQuattroZero");
   }
 }
 
